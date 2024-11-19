@@ -108,13 +108,56 @@ class JingDongOptions:
         return goods_info
 
 
-def fetch_goods_by_creeper(keyword, pages=2):
+def fetch_goods_by_creeper_Taobao(keyword,pages=1):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=15360,8640")
+
+    # 初始化 WebDriver
+    driver = webdriver.Chrome(options=chrome_options)
+
+    print("淘宝初始化完成")
+    TaoBao = TaoBaoOptions()
+    # 存储所有页面的商品信息
+    all_goods = []
+    for page in range(1, pages + 1):
+        TaoBao.fetch_page_with_keyword(driver,keyword,page)
+        print(TaoBao.search_goods(driver))
+        all_goods.extend(TaoBao.search_goods(driver))
+
+    driver.quit()
+
+    return all_goods
+
+def fetch_goods_by_creeper_Jingdong(keyword,pages=1):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=15360,8640")
+
+    # 初始化 WebDriver
+    driver = webdriver.Chrome(options=chrome_options)
+
+    print("京东初始化完成")
+    JingDong = JingDongOptions()
+    all_goods = []
+    for page in range(1, pages + 1):
+        JingDong.fetch_page_with_keyword(driver,keyword,page)
+        print(JingDong.search_goods(driver))
+        all_goods.extend(JingDong.search_goods(driver))
+
+    driver.quit()
+
+    return all_goods
+
+def fetch_goods_by_creeper(keyword, pages=1):
     """
     根据关键词抓取商品信息，包括标题、图片链接、价格和促销信息，并返回结果。
 
     参数:
     keyword (str): 搜索关键词
-    pages (int): 需要抓取的页数，默认为 2 页
+    pages (int): 需要抓取的页数，默认为 1 页
 
     返回:
     list: 包含每个商品信息的字典列表，每个字典结构为：
@@ -129,31 +172,33 @@ def fetch_goods_by_creeper(keyword, pages=2):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--window-size=15360,8640")
+    chrome_options.add_argument("--window-size=15360/2,8640/2")
 
     # 初始化 WebDriver
     driver = webdriver.Chrome(options=chrome_options)
 
-    print("初始化完成")
+    print("淘宝and京东初始化完成")
     TaoBao = TaoBaoOptions()
     # 存储所有页面的商品信息
     all_goods = []
-    for page in range(1, pages + 1):
+    for page in range(1, pages + 2):
         TaoBao.fetch_page_with_keyword(driver,keyword,page)
-        print(TaoBao.search_goods(driver))
+        # print(TaoBao.search_goods(driver))
         all_goods.extend(TaoBao.search_goods(driver))
 
 
     JingDong = JingDongOptions()
     for page in range(1, pages + 1):
         JingDong.fetch_page_with_keyword(driver,keyword,page)
-        print(JingDong.search_goods(driver))
+        # print(JingDong.search_goods(driver))
         all_goods.extend(JingDong.search_goods(driver))
 
     # 关闭 WebDriver
     driver.quit()
 
+    # print("typetype",type(all_goods))
+    print("all_goods[0]: ",all_goods[0])
     return all_goods
 
 if __name__ == '__main__':
-    fetch_goods_by_creeper('电脑',2)
+    fetch_goods_by_creeper('电脑')
