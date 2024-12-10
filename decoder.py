@@ -1,0 +1,5 @@
+import urllib.parse
+
+encoded_url = "http://127.0.0.1:8001/api/checkpricedrop?name=%E5%A4%8F%E6%97%A5%E6%B8%85%E6%96%B0%E7%BB%84%E5%90%88%E7%B3%96%E6%A3%89%E7%BB%BF%E8%89%B2%E6%9F%94%E4%B8%BD%E4%B8%9D%E7%A7%8B%E8%89%B2%E6%89%81%E8%B1%86%E9%B2%9C%E5%88%87%E8%8A%B1%E8%89%B4%E6%9C%AF%E6%8F%92%E8%8A%B1%E4%B8%8A%E6%B5%B7%E9%B2%9C%E8%8A%B1%E9%80%9F%E9%80%92&price=39.9&image=http:%2F%2Fimg.alicdn.com%2Fimg%2Fi4%2F58858809%2FO1CN0148un6V2EwZxhPCXGL_!!4611686018427387193-0-saturn_solar.jpg_360x360q90.jpg_.webp&from_=UlandTaoBao&link=%2F%2Fitem.taobao.com%2Fitem.htm%3FpriceTId%3D213e379417337502177346058ec0b0%26utparam%3D%257B%2522aplus_abtest%2522%253A%2522baee2dfc081299f262d6b8d8d595a960%2522%257D%26id%3D809091464455%26ns%3D1%26xxc%3Dad_ztc%26skuId%3D5665425467315"
+decoded_url = urllib.parse.unquote(encoded_url)
+print(decoded_url)

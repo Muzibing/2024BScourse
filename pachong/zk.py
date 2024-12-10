@@ -82,6 +82,8 @@ class JingDongOptions:
         prices = doc('.price')
         jump_urls = doc('.li_cen_bot')
 
+        # category_elements = doc('a[clstag="shangpin|keycount|product|mbNav-1"]')
+
         goods_info = []
 
         if not product_divs:
@@ -96,6 +98,7 @@ class JingDongOptions:
                 price_ = price.text()
                 # print(price_)
                 jump_url_href = jump_url.find('a').attr('href')
+                # category_element = category_element.text()
 
                 goods_info.append({
                     'title':title,
@@ -103,53 +106,10 @@ class JingDongOptions:
                     'price':price_,
                     'procity':'',
                     'jump_url':jump_url_href,
-                    'from':'JingDong',
+                    'from':'JingDong'
+                    # 'category_elements':category_element
                     })
         return goods_info
-
-
-def fetch_goods_by_creeper_Taobao(keyword,pages=1):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--window-size=15360,8640")
-
-    # 初始化 WebDriver
-    driver = webdriver.Chrome(options=chrome_options)
-
-    print("淘宝初始化完成")
-    TaoBao = TaoBaoOptions()
-    # 存储所有页面的商品信息
-    all_goods = []
-    for page in range(1, pages + 1):
-        TaoBao.fetch_page_with_keyword(driver,keyword,page)
-        print(TaoBao.search_goods(driver))
-        all_goods.extend(TaoBao.search_goods(driver))
-
-    driver.quit()
-
-    return all_goods
-
-def fetch_goods_by_creeper_Jingdong(keyword,pages=1):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--window-size=15360,8640")
-
-    # 初始化 WebDriver
-    driver = webdriver.Chrome(options=chrome_options)
-
-    print("京东初始化完成")
-    JingDong = JingDongOptions()
-    all_goods = []
-    for page in range(1, pages + 1):
-        JingDong.fetch_page_with_keyword(driver,keyword,page)
-        print(JingDong.search_goods(driver))
-        all_goods.extend(JingDong.search_goods(driver))
-
-    driver.quit()
-
-    return all_goods
 
 def fetch_goods_by_creeper(keyword, pages=1):
     """
@@ -181,10 +141,13 @@ def fetch_goods_by_creeper(keyword, pages=1):
     TaoBao = TaoBaoOptions()
     # 存储所有页面的商品信息
     all_goods = []
-    for page in range(1, pages + 2):
+    for page in range(1, pages + 1):
         TaoBao.fetch_page_with_keyword(driver,keyword,page)
         # print(TaoBao.search_goods(driver))
         all_goods.extend(TaoBao.search_goods(driver))
+
+    if(len(all_goods) >= 20):
+        all_goods = all_goods[:20]
 
 
     JingDong = JingDongOptions()
@@ -193,11 +156,14 @@ def fetch_goods_by_creeper(keyword, pages=1):
         # print(JingDong.search_goods(driver))
         all_goods.extend(JingDong.search_goods(driver))
 
+    if(len(all_goods) >= 40):
+        all_goods = all_goods[:40]
+
     # 关闭 WebDriver
     driver.quit()
 
     # print("typetype",type(all_goods))
-    print("all_goods[0]: ",all_goods[0])
+    print("all_goods[0]: ",all_goods[0],"all_goods[len-1]:",all_goods[-1])
     return all_goods
 
 if __name__ == '__main__':
