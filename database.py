@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, String, Float, DateTime, ForeignKey
+from sqlalchemy import create_engine, Column, String, Integer, Float, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
@@ -18,7 +18,8 @@ class User(Base):
 
 class Product(Base):
     __tablename__ = "products"
-    name = Column(String ,primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = Column(String, index=True)
     price = Column(Float)
     image = Column(String)
     from_ = Column(String)  # 表示商品来源

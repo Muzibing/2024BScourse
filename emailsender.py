@@ -1,4 +1,6 @@
 import yagmail
+from datetime import datetime
+
 def send_email(to, subject, body):
     # 发件人和收件人信息
     sender_email = "3348536459@qq.com"
@@ -13,5 +15,5 @@ def send_email(to, subject, body):
 
     print("邮件已发送成功！")
 
-if __name__ == '__main__':
-    send_email("3348536459@qq.com","这是main函数调用","降价提醒示例")
+# if __name__ == '__main__':
+#     send_email("3348536459@qq.com","这是main函数调用","降价提醒示例")

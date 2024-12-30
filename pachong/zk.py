@@ -166,5 +166,5 @@ def fetch_goods_by_creeper(keyword, pages=1):
     print("all_goods[0]: ",all_goods[0],"all_goods[len-1]:",all_goods[-1])
     return all_goods
 
-if __name__ == '__main__':
-    fetch_goods_by_creeper('电脑')
+# if __name__ == '__main__':
+#     fetch_goods_by_creeper('电脑')
